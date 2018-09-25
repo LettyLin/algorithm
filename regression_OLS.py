@@ -23,6 +23,7 @@ def regression_OLS(data, labels):
     data_mat = np.matrix(data)
     labels_mat = np.matrix(labels).T
     mat_to_inverse = np.dot(data_mat.T, data_mat)
+    # calculate determinant: np.linalg.det()
     if np.linalg.det(mat_to_inverse) == 0.0:
         print('this matrix cannot inverse')
         return
@@ -31,11 +32,16 @@ def regression_OLS(data, labels):
     return w
 
 
+# calculate correlation coefficent
+def calculate_r(y_hat, y):
+    return np.corrcoef(y_hat, y)
+
+
 def plot_data(data, labels, w):
     data_mat = np.matrix(data)
     labels_mat = np.matrix(labels)
     import matplotlib.pyplot as plt
-    fig = plt.figure()
+    fig = plt.figure(1)
     ax = fig.add_subplot(111)
     ax.scatter(data_mat[:, 1].flatten().A[0], labels_mat.T[:, 0].flatten().A[0])
     x_copy = data_mat.copy()
@@ -48,4 +54,6 @@ def plot_data(data, labels, w):
 dataset, labelset = load_data('ex0.txt')
 ws = regression_OLS(dataset, labelset)
 print(ws)
+y_hat = np.dot(np.matrix(dataset), ws)
+print(calculate_r(y_hat.T, np.matrix(labelset)))
 plot_data(dataset, labelset, ws)
