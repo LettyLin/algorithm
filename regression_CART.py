@@ -193,7 +193,7 @@ def creat_fore_cast(tree, test_data, model_eval=reg_tree_eval):
         y_hat[i, 0] = tree_fore_cast(tree, np.matrix(test_data[i]), model_eval)
     return y_hat
 
-
+'''
 train_mat = np.matrix(load_data('bikeSpeedVsIq_train.txt'))
 test_mat = np.matrix(load_data('bikeSpeedVsIq_test.txt'))
 
@@ -216,3 +216,5 @@ for i in range(np.shape(test_mat)[0]):
     y_hat[i] = test_mat[i, 0]*ws[1, 0]+ws[0,0]
 print(np.corrcoef(y_hat, test_mat[:, 1], rowvar=0)[0, 1])
 print(y_hat.T)
+'''
+
