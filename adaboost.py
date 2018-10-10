@@ -118,5 +118,5 @@ def ada_classify(data, weak_classifiers):
 dataset, labels = init_data()
 weaks = adaboost(dataset, labels, 10)
 d = [1.0, 2.1]
-cla = adaboost_classify(d, weaks)
+cla = ada_classify(d, weaks)
 print(cla)

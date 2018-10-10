@@ -4,7 +4,7 @@ matplotlib.use('TkAgg')
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
 import numpy as np
-import regression_CART
+from regression_classification import regression_CART
 
 
 def re_draw(tols, toln):
@@ -13,7 +13,7 @@ def re_draw(tols, toln):
     if chk_btn_var.get():
         if toln < 2 :
             toln = 2
-        my_tree = regression_CART.create_tree(re_draw.raw_dat, regression_CART.model_leaf, regression_CART.model_err, (tols,toln))
+        my_tree = regression_CART.create_tree(re_draw.raw_dat, regression_CART.model_leaf, regression_CART.model_err, (tols, toln))
         y_hat = regression_CART.creat_fore_cast(my_tree, re_draw.test_dat, regression_CART.model_tree_eval)
     else:
         my_tree = regression_CART.create_tree(re_draw.raw_dat, ops=(tols, toln))
