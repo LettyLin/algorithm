@@ -1,15 +1,9 @@
-
 def sift_up(h, i):
-    """
-    current element is bigger than its parent, so we need to change
-    :param h: the heap array
-    :param i: current element index
-    :return:
-    """
+    # 根节点
     if i == 1:
-        return
+        return h
     done = False
-    while i != 1 and done is False:
+    while done is False and i > 1:
         if h[i-1] > h[int(i/2)-1]:
             h[i-1], h[int(i/2)-1] = h[int(i/2)-1], h[i-1]
         else:
@@ -19,61 +13,62 @@ def sift_up(h, i):
 
 
 def sift_down(h, i):
-    """
-    current element is smaller than its child, so we need to change
-    :param h: the heap array
-    :param i: current element index
-    :return:
-    """
-    n = len(h)
-    if 2*i > n:
-        return
+    # 叶子节点
+    if 2*i > len(h):
+        return h
     done = False
-    while 2*i <= n and done is False:
-        i = 2 * i
-        if i+1<n and h[i]>h[i-1]:
+    while done is False and 2*i <= len(h):
+        i = 2*i
+        if i<len(h) and h[i-1] < h[i]:
             i = i+1
-        if h[int(i/2)-1] < h[i-1]:
-            h[int(i/2)-1], h[i-1] = h[i-1], h[int(i/2)-1]
+        if h[i-1] > h[int(i/2)-1]:
+            h[i-1], h[int(i/2)-1] = h[int(i/2)-1], h[i-1]
         else:
             done = True
-
     return h
 
 
 def insert(h, x):
     h.append(x)
-    return sift_up(h, len(h))
-
-
-def delete(h, i):
-    n = len(h)
-    x = h[i-1]
-    y = h[n-1]
-    h.remove(n - 1)
-    if i == n:
-        return h
-    # 删除列表元素
-    h[i-1] = y
-    if x > y:
-        sift_down(h, i)
-    else:
-        sift_up(h, i)
+    sift_up(h, len(h))
     return h
 
 
-def delete_max(h):
-    x = h[0]
-    delete(h, 1)
-    return x
+def delete(h, i):
+    x = h[i-1]
+    y = h[len(h)-1]
+    del(h[len(h)-1])
+    if i == len(h)+1:
+        return h
+    h[i-1] = y
+
+    if y > x:
+        sift_up(h, i)
+    else:
+        sift_down(h, i)
+    return h
 
 
+# O(n)
 def make_heap(arr):
-    for i in range(int(len(arr)/2), 0, -1):
+    i = int(len(arr)/2)
+    while i > 0:
         sift_down(arr, i)
+        i = i-1
+    return arr
+
+
+# 用堆进行排序。首先将数组转化为堆->然后将堆顶即最大值与最后一位交换->shiftdown重新构造堆
+# O(nlogn)
+def heap_sort(arr):
+    arr = make_heap(arr)
+    print(arr)
+    for j in range(len(arr), 1, -1):
+        arr[0], arr[j-1] = arr[j-1], arr[0]
+        arr[:j-1] = sift_down(arr[:j-1], 1)
+    return arr
 
 
 ha = [20, 17, 9, 10, 11, 4, 5, 3, 7, 5]
 a = [4, 3, 8, 10, 11, 13, 7, 30, 17, 26]
-make_heap(a)
-print(a)
+print(heap_sort(a))
